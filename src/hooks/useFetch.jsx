@@ -1,27 +1,22 @@
+import {useEffect, useState} from "react";
+import axios from "axios";
+
 export default function useFetch(uri) {
-	const [data, setData] = useState();
+	const [response, setResponse] = useState();
 	const [error, setError] = useState();
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
-		console.log(data);
-	});
-	useEffect(() => {
 		if (!uri) return;
-		const abortController = new AbortController();
-		fetch(uri)
-			.then((data) => data.json())
-			.then(setData)
+		axios.get(uri)
+			.then((data) => setResponse(data.data))
 			.catch(setError)
 			.finally(() => {
 				setLoading(false);
 			});
-		return () => {
-			abortController.abort();
-		};
 	}, [uri]);
 	return {
 		loading,
-		data,
+		response,
 		error,
 	};
 }

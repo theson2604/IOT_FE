@@ -1,3 +1,13 @@
+import useFetch from "../hooks/useFetch.jsx";
+
+/**
+ *
+ * @param uri:string uri to the api to fetch
+ * @param renderSuccess:React.Component component to render when the fetch action completes
+ * @param loadingFallback:React.Component component to render when the fetch action is in process
+ * @param renderError:React.Component component to render in error cases.
+ * @returns {*|JSX.Element}
+ */
 export default function Fetch({
 	uri,
 	renderSuccess,
