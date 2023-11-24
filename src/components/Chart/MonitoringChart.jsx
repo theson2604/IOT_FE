@@ -11,7 +11,7 @@ import {
 	PointElement,
 	Tooltip,
 } from 'chart.js';
-import useFetch from '../../hooks/useFetch.jsx';
+import useFetch from '../../hooks/useFetch';
 Chart.register(
 	zoomPlugin,
 	LineElement,

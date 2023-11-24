@@ -65,7 +65,7 @@ export default function Page_Monitor_SoilMoisture() {
 			<Box sx={{ marginTop: 2 }}>
 				<Grid container spacing={4}>
 					<Grid item xs={7}>
-            <MonitoringChart uri="http://localhost:4000/soil-moisture/monitor">
+						<MonitoringChart uri='http://localhost:4000/soil-moisture/monitor' />
 					</Grid>
 					<Grid item xs={5}>
 						Current Value

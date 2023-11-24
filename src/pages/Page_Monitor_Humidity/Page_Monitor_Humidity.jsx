@@ -1,6 +1,7 @@
 import { Box, Divider, Grid } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import React from 'react';
+import MonitoringChart from "../../components/Chart/MonitoringChart.jsx";
 
 export default function Page_Monitor_Humidity() {
 	// Test Data
@@ -66,7 +67,7 @@ export default function Page_Monitor_Humidity() {
 			<Box sx={{ marginTop: 2 }}>
 				<Grid container spacing={4}>
 					<Grid item xs={7}>
-						Humidity Graph
+						<MonitoringChart uri='http://localhost:4000/soil-moisture/monitor' />
 					</Grid>
 					<Grid item xs={5}>
 						Current Value

@@ -1,5 +1,5 @@
-import {useEffect, useState} from "react";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function useFetch(uri) {
 	const [response, setResponse] = useState();
@@ -7,7 +7,8 @@ export default function useFetch(uri) {
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		if (!uri) return;
-		axios.get(uri)
+		axios
+			.get(uri)
 			.then((data) => setResponse(data.data))
 			.catch(setError)
 			.finally(() => {

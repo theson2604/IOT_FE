@@ -104,15 +104,23 @@ export default function Page_Dashboard() {
 						</Box>
 
 						<TabPanel value='1'>
-							<div>
-								<RealTimeChart
-									uri='http://localhost:4000/temperature/subscribe'
-									label='temperature'
-								/>
-							</div>
+							<RealTimeChart
+								uri='https://d922-2a09-bac1-7ae0-10-00-246-1a.ngrok-free.app/measurements/temperature/sse'
+								label='temperature'
+							/>
 						</TabPanel>
-						<TabPanel value='2'>Humidity Graph</TabPanel>
-						<TabPanel value='3'>Soil Moisture Graph</TabPanel>
+						<TabPanel value='2'>
+							<RealTimeChart
+								uri='https://d922-2a09-bac1-7ae0-10-00-246-1a.ngrok-free.app/measurements/humidity/sse'
+								label='humidity'
+							/>
+						</TabPanel>
+						<TabPanel value='3'>
+							<RealTimeChart
+								uri='https://d922-2a09-bac1-7ae0-10-00-246-1a.ngrok-free.app/measurements/moisture/sse'
+								label='Moisture'
+							/>
+						</TabPanel>
 					</TabContext>
 				</Grid>
 
