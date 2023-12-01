@@ -9,7 +9,6 @@ import Page_Devices_Bulb from './pages/Page_Devices_Bulb/Page_Devices_Bulb';
 import Page_Devices_Pumper from './pages/Page_Devices_Pumper/Page_Devices_Pumper';
 import MissingPage from './components/MissingPage/MissingPage';
 import MainLayout from './components/MainLayout/MainLayout';
-
 function App() {
 	return (
 		<div className='App'>

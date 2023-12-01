@@ -1,9 +1,9 @@
-import { Box, Divider, Grid } from '@mui/material';
+import { Box, Divider, Grid, Paper } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MonitoringChart from '../../components/Chart/MonitoringChart';
-
+const env = import.meta.env;
 export default function Page_Monitor_Temperature() {
 	// Test Data
 	const rows = [
@@ -65,16 +65,28 @@ export default function Page_Monitor_Temperature() {
 			</Box>
 			<Divider sx={{ borderColor: 'lightgray' }}></Divider>
 			<Box sx={{ marginTop: 2 }}>
-				<Grid container spacing={4}>
+				<Grid container spacing={5}>
 					<Grid item xs={7}>
 						<div>
-							<MonitoringChart uri='http://localhost:4000/temperature/monitor'></MonitoringChart>
+							<MonitoringChart
+								uri={`http://localhost:4000/measurements/temperature`}
+							></MonitoringChart>
 						</div>
 					</Grid>
 					<Grid item xs={5}>
-						Current Value
+						<Paper
+							sx={{
+								boxShadow: 10,
+								borderRadius: 3,
+								height: '100%',
+								width: '100%',
+								padding: 2,
+							}}
+						>
+							<h4>Current Value</h4>
+						</Paper>
 					</Grid>
-					<Grid item xs={12} sx={{ marginTop: 8 }}>
+					<Grid item xs={12} sx={{ marginTop: 10 }}>
 						<Box sx={{ minHeight: 400 }}>
 							<DataGrid
 								autoHeight

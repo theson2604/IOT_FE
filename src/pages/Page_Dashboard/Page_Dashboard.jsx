@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
-import { Box, Divider, Grid, Tab } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
+import { Box, Divider, Grid, Paper, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import SpaIcon from '@mui/icons-material/Spa';
 import RealTimeChart from '../../components/Chart/RealTimeChart';
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import HardwareIcon from '@mui/icons-material/Hardware';
+import useSSE from '../../hooks/useSSE';
+const env = import.meta.env;
+
 export default function Page_Dashboard() {
 	const [value, setValue] = useState('1');
-
+	let bulbStatus = useRef(null);
+	useSSE(`${env.VITE_API_BASE_URL}/devices/bulb/sse`, (event) => {
+		const status = JSON.parse(event.data).data;
+		console.log(`${status}`);
+		if (status === undefined) {
+			bulbStatus.current.innerHTML = 'UNDEFINED';
+		} else {
+			bulbStatus.current.innerHTML = status ? 'ON' : 'OFF';
+		}
+	});
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
@@ -25,8 +40,8 @@ export default function Page_Dashboard() {
 			>
 				Dashboard
 			</Box>
-			<Grid container spacing={4}>
-				<Grid item xs={7}>
+			<Grid container spacing={5}>
+				<Grid item xs={8}>
 					<TabContext value={value}>
 						<Box>
 							<TabList
@@ -45,8 +60,8 @@ export default function Page_Dashboard() {
 									value='1'
 									sx={{
 										textTransform: 'none',
-										fontSize: 22,
-										marginRight: 1,
+										fontSize: 26,
+										marginRight: 2,
 										fontWeight: 600,
 										color: 'rgba(0, 0, 0, 0.85)',
 										'&:hover': {
@@ -56,7 +71,9 @@ export default function Page_Dashboard() {
 											color: 'black',
 										},
 									}}
-									icon={<DeviceThermostatIcon />}
+									icon={
+										<DeviceThermostatIcon fontSize='large' />
+									}
 									iconPosition='start'
 								/>
 								<Tab
@@ -64,8 +81,8 @@ export default function Page_Dashboard() {
 									value='2'
 									sx={{
 										textTransform: 'none',
-										fontSize: 22,
-										marginRight: 1,
+										fontSize: 26,
+										marginRight: 2,
 										fontWeight: 600,
 										color: 'rgba(0, 0, 0, 0.85)',
 										'&:hover': {
@@ -75,7 +92,7 @@ export default function Page_Dashboard() {
 											color: 'black',
 										},
 									}}
-									icon={<WaterDropIcon />}
+									icon={<WaterDropIcon fontSize='large' />}
 									iconPosition='start'
 								/>
 								<Tab
@@ -83,8 +100,8 @@ export default function Page_Dashboard() {
 									value='3'
 									sx={{
 										textTransform: 'none',
-										fontSize: 22,
-										marginRight: 1,
+										fontSize: 26,
+										marginRight: 2,
 										fontWeight: 600,
 										color: 'rgba(0, 0, 0, 0.85)',
 										'&:hover': {
@@ -94,7 +111,7 @@ export default function Page_Dashboard() {
 											color: 'black',
 										},
 									}}
-									icon={<SpaIcon />}
+									icon={<SpaIcon fontSize='large' />}
 									iconPosition='start'
 								/>
 							</TabList>
@@ -105,34 +122,99 @@ export default function Page_Dashboard() {
 
 						<TabPanel value='1'>
 							<RealTimeChart
-								uri='https://d922-2a09-bac1-7ae0-10-00-246-1a.ngrok-free.app/measurements/temperature/sse'
-								label='temperature'
+								uri='http://localhost:4000/measurements/temperature/sse'
+								label='Temperature'
 							/>
 						</TabPanel>
 						<TabPanel value='2'>
 							<RealTimeChart
-								uri='https://d922-2a09-bac1-7ae0-10-00-246-1a.ngrok-free.app/measurements/humidity/sse'
-								label='humidity'
+								uri='http://localhost:4000/measurements/humidity/sse'
+								label='Humidity'
 							/>
 						</TabPanel>
 						<TabPanel value='3'>
 							<RealTimeChart
-								uri='https://d922-2a09-bac1-7ae0-10-00-246-1a.ngrok-free.app/measurements/moisture/sse'
+								uri='http://localhost:4000/measurements/moisture/sse'
 								label='Moisture'
 							/>
 						</TabPanel>
 					</TabContext>
 				</Grid>
 
-				<Grid item xs={5}>
+				<Grid item xs={4}>
 					<Grid item xs={12}>
-						Bulb status
+						<Paper
+							sx={{
+								boxShadow: 10,
+								borderRadius: 3,
+								height: '100%',
+								width: '100%',
+								padding: 2,
+								display: 'flex',
+								justifyContent: 'space-between',
+							}}
+						>
+							<Box
+								sx={{
+									display: 'flex',
+									flexDirection: 'column',
+								}}
+							>
+								<h1>Bulb</h1>
+								<h3>
+									Status: <span ref={bulbStatus}></span>
+								</h3>
+							</Box>
+							<LightbulbIcon fontSize='large' />
+						</Paper>
 					</Grid>
-					<Grid item xs={12}>
-						Door status
+					<Grid item xs={12} sx={{ marginTop: '40px' }}>
+						<Paper
+							sx={{
+								boxShadow: 10,
+								borderRadius: 3,
+								height: '100%',
+								width: '100%',
+								padding: 2,
+								display: 'flex',
+								justifyContent: 'space-between',
+							}}
+						>
+							<Box
+								sx={{
+									display: 'flex',
+									flexDirection: 'column',
+								}}
+							>
+								<h1>Door</h1>
+								<h3>Status: ON</h3>
+							</Box>
+							<MeetingRoomIcon fontSize='large' />
+						</Paper>
 					</Grid>
-					<Grid item xs={12}>
-						Pumper status
+					<Grid item xs={12} sx={{ marginTop: '40px' }}>
+						<Paper
+							sx={{
+								boxShadow: 10,
+								borderRadius: 3,
+								height: '100%',
+								width: '100%',
+								padding: 2,
+								display: 'flex',
+								justifyContent: 'space-between',
+							}}
+						>
+							<Box
+								sx={{
+									display: 'flex',
+									flexDirection: 'column',
+								}}
+							>
+								<h1>Pumper</h1>
+								<h3>Status: ON</h3>
+							</Box>
+							<HardwareIcon fontSize='large' />
+						</Paper>
 					</Grid>
 				</Grid>
 			</Grid>
