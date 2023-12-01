@@ -22,7 +22,7 @@ export default function DeviceStatus(props) {
 					}}
 				>
 					<h1>{props.data.title}</h1>
-					<h4>Current: {props.data.value}</h4>
+					<h4>Current status: {props.data.value}</h4>
 				</Box>
 				{props.iconComponent}
 			</Paper>
