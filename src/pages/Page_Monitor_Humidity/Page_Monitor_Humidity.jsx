@@ -69,7 +69,7 @@ export default function Page_Monitor_Humidity() {
 				<Grid container spacing={4}>
 					<Grid item xs={7}>
 						<MonitoringChart
-							uri={`${env.VITE_API_BASE_URL}/soil-moisture/monitor`}
+							uri={`${env.VITE_API_BASE_URL}/measurements/humidity`}
 						/>
 					</Grid>
 					<Grid item xs={5}>

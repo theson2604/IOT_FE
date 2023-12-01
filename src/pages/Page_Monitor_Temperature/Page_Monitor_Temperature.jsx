@@ -69,7 +69,7 @@ export default function Page_Monitor_Temperature() {
 					<Grid item xs={7}>
 						<div>
 							<MonitoringChart
-								uri={`http://localhost:4000/measurements/temperature`}
+								uri={`${env.VITE_API_BASE_URL}/measurements/temperature`}
 							></MonitoringChart>
 						</div>
 					</Grid>
