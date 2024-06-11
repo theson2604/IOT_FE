@@ -32,7 +32,18 @@ const buttonContainerStyle = {
     marginTop: 2,
 };
 
+const buttonStyle = {
+    backgroundColor: '#32d3a2', // Change this color to better harmonize with your UI
+    color: '#fff',
+    '&:hover': {
+      backgroundColor: '#45A049', // Slightly darker shade for hover effect
+    },
+    height: '100%', // Ensures the button takes up the full height of its grid item
+    // paddingTop: '0.5rem'
+};
+
 const list_area = ['Area 1', 'Area 2', 'Area 3']
+const list_volume = ['No Irrigation', 'Low', 'Medium', 'High']
 
 const list_trigger = ['Instant', 'Interval', 'Repeat']
 
@@ -51,6 +62,7 @@ function getDaysArray(start, end) {
   }
 
 export default function AddModal({ open, setOpen, events, setEvents }) {
+    const [area, setArea] = React.useState(null)
     const [volume, setVolume] = React.useState(["", "", ""])
     const [time, setTime] = React.useState(null)
     const [timeout, setTimeout] = React.useState(null)
@@ -60,7 +72,8 @@ export default function AddModal({ open, setOpen, events, setEvents }) {
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
-        setVolume(["", "", ""]);
+        setArea(null);
+        setVolume(null);
         setTime(null);
         setDays([dayjs().format('YYYY-MM-DD')]);
         setTimeout(null);
@@ -73,6 +86,11 @@ export default function AddModal({ open, setOpen, events, setEvents }) {
         const newVolume = [...volume];
         newVolume[index] = e.target.value;
         setVolume(newVolume);
+    };
+
+    const handleAuto = () => {
+        const randomIndex = Math.floor(Math.random() * list_volume.length);
+        setVolume(list_volume[randomIndex]);
     };
 
     const handleTime = (newTime) => {
@@ -123,11 +141,8 @@ export default function AddModal({ open, setOpen, events, setEvents }) {
     const handleEvents = () => {
         let new_events = []
         const content = {
-            Volume: `[${formatContent({
-                Area1: volume[0],
-                Area2: volume[1],
-                Area3: volume[2],
-            })}]`,
+            Area: area,
+            Volume: volume,
             StartTime: (time !== null)? time : dayjs().format('ddd, DD MMM YYYY HH:mm:ss [GMT]'),
             Timeout: handleTimeout(),
             Option: option
@@ -178,25 +193,50 @@ export default function AddModal({ open, setOpen, events, setEvents }) {
                 <Typography id="modal-modal-title" variant="h4" component="h2">
                     Add Scheduler
                 </Typography>
-                {list_area.map((area, index) => (
-                    <FormControl key={index} sx={formControlStyle}>
-                        <InputLabel id="select-sensor-label">{area}</InputLabel>
+                <FormControl sx={formControlStyle}>
+                    <InputLabel id="select-sensor-label">Choose Area</InputLabel>
+                    <Select
+                        labelId="select-sensor-label"
+                        id="select-sensor"
+                        value={area}
+                        onChange={(e) => setArea(e.target.value)}
+                        label="Choose Area"
+                        renderValue={(select) => select}
+                        // style = {{marginBottom: '0.2rem'}}
+                    >
+                        <MenuItem value={"Area 1"}>Area 1</MenuItem>
+                        <MenuItem value={"Area 2"}>Area 2</MenuItem>
+                        <MenuItem value={"Area 3"}>Area 3</MenuItem>
+                    </Select>
+                </FormControl>
+                <Grid container spacing={2} alignItems="center">
+                    <Grid item xs={9}>
+                        <FormControl fullWidth sx={formControlStyle}>
+                        <InputLabel id="select-sensor-label">Choose Volume</InputLabel>
                         <Select
                             labelId="select-sensor-label"
                             id="select-sensor"
-                            value={volume[index]}
-                            onChange={(e) => handleVolumeChange(e, index)}
-                            label={area}
-                            renderValue={(select) => select}
-                            // style = {{marginBottom: '0.2rem'}}
+                            value={volume}
+                            onChange={(e) => setVolume(e.target.value)}
+                            label="Choose Volume"
                         >
                             <MenuItem value={"No Irrigation"}>No Irrigation</MenuItem>
                             <MenuItem value={"Low"}>Low</MenuItem>
                             <MenuItem value={"Medium"}>Medium</MenuItem>
                             <MenuItem value={"High"}>High</MenuItem>
                         </Select>
-                    </FormControl>
-                ))}
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={3} display="flex" justifyContent="center" alignItems="center" sx={{ marginTop: '0.65rem' }}>
+                        <Button
+                            variant="contained"
+                            onClick={handleAuto}
+                            sx={buttonStyle}
+                        >
+                            Auto
+                        </Button>
+                    </Grid>
+                </Grid>
                 
                 {option !== '' ? (
                     <>
