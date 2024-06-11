@@ -3,8 +3,8 @@ import { Box, Grid, Paper, IconButton } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-export default function DeviceStatus(props) {
-	const [page, setPage] = useState(1);
+export default function DevicePump(props) {
+	const [page, setPage] = useState("In");
 
 	const handleClick = () => {
         // Handle click event here
@@ -12,13 +12,12 @@ export default function DeviceStatus(props) {
 		alert("CLICKED")
     };
 
-	const handleNext = () => {
-		setPage(prev => Math.min(prev + 1, 3)); // Limit to 3 pages
-	};
-
-	const handlePrev = () => {
-		setPage(prev => Math.max(prev - 1, 1)); // Limit to 1 page
-	};
+	const handleChange = () => {
+		if (page === "Out") {
+			setPage("In")
+		}
+		else setPage("Out")
+	}
 
 	return (
 		<Grid item xs={props.xs || 12} sx={props.sx}>
@@ -40,8 +39,7 @@ export default function DeviceStatus(props) {
 					}}
 				>
 					<h1>{props.data.title} {page}</h1>
-					<h4>Current status: <br></br>{props.data.value}</h4>
-					{/* <h4>{props.data.value}</h4> */}
+					<h4>Current status: {props.data.value}</h4>
 				</Box>
 				<Box
 					sx={{
@@ -65,10 +63,10 @@ export default function DeviceStatus(props) {
 							flexDirection: 'row'
 						}}
 					>
-						<IconButton onClick={handlePrev} disabled={page === 1}>
+						<IconButton onClick={handleChange} disabled={page==="In"}>
 							<ChevronLeftIcon />
 						</IconButton>
-						<IconButton onClick={handleNext} disabled={page === 3}>
+						<IconButton onClick={handleChange} disabled={page==="Out"}>
 							<ChevronRightIcon />
 						</IconButton>
 					</Box>

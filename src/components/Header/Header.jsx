@@ -9,12 +9,13 @@ export default function Header() {
   return (
     <Navbar expand="xxl" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
       <Container>
-        <Navbar.Brand as={Link} to="/" style={{ fontWeight: 700, fontSize: 24 }}>SMART UNIVERSITY</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/" style={{ fontWeight: 700, fontSize: 24 }}>IOT SMART FARM</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto" style={{ marginLeft: 600 }}>
             <Nav.Link as={Link} to="/dashboard" style={{ marginRight: 40, fontWeight: 600, fontSize: 18 }}>Dashboard</Nav.Link>
-            <NavDropdown title="Monitor" id="basic-nav-dropdown" style={{ marginRight: 40, fontWeight: 600, fontSize: 18 }}>
+            <Nav.Link as={Link} to="/calendar" style={{ marginRight: 40, fontWeight: 600, fontSize: 18 }}>Calendar</Nav.Link>
+            {/* <NavDropdown title="Monitor" id="basic-nav-dropdown" style={{ marginRight: 40, fontWeight: 600, fontSize: 18 }}>
               <NavDropdown.Item as={Link} to="/monitor/temperature" style={{ fontWeight: 500, fontSize: 18 }}>
                 Temperature
               </NavDropdown.Item>
@@ -32,7 +33,7 @@ export default function Header() {
               <NavDropdown.Item as={Link} to="/devices/pumper" style={{ fontWeight: 500, fontSize: 18 }}>
                 Pumper
               </NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
           </Nav>
         </Navbar.Collapse>
       </Container>

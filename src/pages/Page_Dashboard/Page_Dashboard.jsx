@@ -5,16 +5,17 @@ import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import SpaIcon from '@mui/icons-material/Spa';
 import RealTimeChart from '../../components/Chart/RealTimeChart';
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
-import HardwareIcon from '@mui/icons-material/Hardware';
 import useSSE from '../../hooks/useSSE';
+import DevicePump from '../../components/DevicePump';
 import DeviceStatus from '../../components/DeviceStatus';
+import AgricultureIcon from '@mui/icons-material/Agriculture';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import OpacityIcon from '@mui/icons-material/Opacity';
 export default function Page_Dashboard() {
 	const [value, setValue] = useState('1');
-	const [bulbStatus] = registerDeviceStatus('devices/bulb/sse');
-	const [doorStatus] = [false]; //registerDeviceStatus('devices/door/sse');
-	const [pumperStatus] = registerDeviceStatus('devices/pumper/sse');
+	const [bulbStatus] = ["ACTIVE"] //registerDeviceStatus('devices/bulb/sse');
+	const [doorStatus] = ["INACTIVE"]; //registerDeviceStatus('devices/door/sse');
+	const [pumperStatus] = ["INACTIVE"] //registerDeviceStatus('devices/pumper/sse');
 	return (
 		<>
 			<Box
@@ -134,28 +135,28 @@ export default function Page_Dashboard() {
 				<Grid item xs={4}>
 					<DeviceStatus
 						sx={{ marginTop: '40px' }}
-						iconComponent={<LightbulbIcon fontSize='large' />}
+						iconComponent={<AgricultureIcon fontSize='large' />}
 						data={{
-							title: 'Bulb',
+							title: 'Fertilizer',
 							value: bulbStatus,
 						}}
 					></DeviceStatus>
 					<DeviceStatus
 						sx={{ marginTop: '40px' }}
-						iconComponent={<MeetingRoomIcon fontSize='large' />}
+						iconComponent={<LocationOnIcon fontSize='large' />}
 						data={{
-							title: 'Door',
+							title: 'Area',
 							value: doorStatus,
 						}}
 					></DeviceStatus>
-					<DeviceStatus
+					<DevicePump
 						sx={{ marginTop: '40px' }}
-						iconComponent={<HardwareIcon fontSize='large' />}
+						iconComponent={<OpacityIcon fontSize='large' />}
 						data={{
-							title: 'Pumper',
+							title: 'Pump',
 							value: pumperStatus,
 						}}
-					></DeviceStatus>
+					></DevicePump>
 				</Grid>
 			</Grid>
 		</>
