@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Select, Box, Button, Typography, Modal, MenuItem, FormControl, Grid, InputLabel, Tooltip, FormControlLabel, Checkbox, IconButton, DialogContent, DialogContentText } from '@mui/material';
+import { Select, Box, Button, Typography, Modal, MenuItem, FormControl, Grid, InputLabel, Tooltip, FormControlLabel, Checkbox, TextField , DialogContent, DialogContentText } from '@mui/material';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -42,7 +42,7 @@ const buttonStyle = {
     // paddingTop: '0.5rem'
 };
 
-const list_area = ['Area 1', 'Area 2', 'Area 3']
+const list_mixer = ['Mixer 1', 'Mixer 2', 'Mixer 3']
 const list_volume = ['No Irrigation', 'Low', 'Medium', 'High']
 
 const list_trigger = ['Instant', 'Interval', 'Repeat']
@@ -73,7 +73,7 @@ export default function AddModal({ open, setOpen, events, setEvents }) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
         setArea(null);
-        setVolume(null);
+        setVolume(["", "", ""]);
         setTime(null);
         setDays([dayjs().format('YYYY-MM-DD')]);
         setTimeout(null);
@@ -89,8 +89,21 @@ export default function AddModal({ open, setOpen, events, setEvents }) {
     };
 
     const handleAuto = () => {
-        const randomIndex = Math.floor(Math.random() * list_volume.length);
-        setVolume(list_volume[randomIndex]);
+        // const randomIndex = Math.floor(Math.random() * list_volume.length);
+        // setVolume(list_volume[randomIndex]);
+        // for (let i=0; i < volume.length; i++) {
+        //     const newVolume = [...volume];
+        //     const randomIndex = Math.floor(Math.random() * list_volume.length);
+        //     newVolume[i] = list_volume[randomIndex];
+        //     setVolume(newVolume);
+        // }
+        let newVolume = [];
+        for (let i = 0; i < volume.length; i++) {
+            const randomValue = Math.floor(Math.random() * 101);
+            newVolume.push(randomValue)
+            
+        }
+        setVolume(newVolume);
     };
 
     const handleTime = (newTime) => {
@@ -142,7 +155,7 @@ export default function AddModal({ open, setOpen, events, setEvents }) {
         let new_events = []
         const content = {
             Area: area,
-            Volume: volume,
+            Mixers: formatContent(volume),
             StartTime: (time !== null)? time : dayjs().format('ddd, DD MMM YYYY HH:mm:ss [GMT]'),
             Timeout: handleTimeout(),
             Option: option
@@ -193,6 +206,15 @@ export default function AddModal({ open, setOpen, events, setEvents }) {
                 <Typography id="modal-modal-title" variant="h4" component="h2">
                     Add Scheduler
                 </Typography>
+                <Box sx={buttonContainerStyle}>
+                    <Button
+                        variant="contained"
+                        onClick={handleAuto}
+                        sx={buttonStyle}
+                    >
+                        AI Mixer
+                    </Button>
+                </Box>
                 <FormControl sx={formControlStyle}>
                     <InputLabel id="select-sensor-label">Choose Area</InputLabel>
                     <Select
@@ -209,7 +231,26 @@ export default function AddModal({ open, setOpen, events, setEvents }) {
                         <MenuItem value={"Area 3"}>Area 3</MenuItem>
                     </Select>
                 </FormControl>
-                <Grid container spacing={2} alignItems="center">
+                {list_mixer.map((mixer, index) => (
+                    <FormControl key={index} fullWidth sx={formControlStyle}>
+                        <TextField
+                            id="input-volume"
+                            type="number"
+                            value={volume[index]}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (value >= 0 && value <= 100) {
+                                    handleVolumeChange(e, index);
+                                } else {
+                                    setVolume(''); // Clear the input if the value is not greater than 0
+                                }
+                            }}
+                            label={`Choose ${mixer}`}
+                            // InputLabelProps={{ shrink: true }} // To make sure the label doesn't overlap with the input
+                            />
+                    </FormControl>
+                ))}
+                {/* <Grid container spacing={2} alignItems="center">
                     <Grid item xs={9}>
                         <FormControl fullWidth sx={formControlStyle}>
                         <InputLabel id="select-sensor-label">Choose Volume</InputLabel>
@@ -236,7 +277,7 @@ export default function AddModal({ open, setOpen, events, setEvents }) {
                             Auto
                         </Button>
                     </Grid>
-                </Grid>
+                </Grid> */}
                 
                 {option !== '' ? (
                     <>
@@ -330,7 +371,7 @@ export default function AddModal({ open, setOpen, events, setEvents }) {
                         </Grid>
                     </>
                 ) : null}
-                <Grid item xs={9.75} sx={{ display: 'flex', flexDirection: 'row' }}>
+                <Grid item xs={9.75} sx={{ display: 'flex', flexDirection: 'row', marginTop: '0.25rem' }}>
                     {list_trigger.map((trigger, index) => (
                         <Grid key={index} item container spacing={1}  >
                             <Grid item xs={12}>
